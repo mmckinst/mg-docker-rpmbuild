@@ -1,0 +1,16 @@
+---
+sudo: required
+language: bash
+services:
+  - docker
+before_install:
+  - docker pull mmckinst/rpmbuilder
+env:
+  - MOCK_CONFIG="epel-6-i386"
+  - MOCK_CONFIG="epel-6-x86_64"
+  - MOCK_CONFIG="epel-7-x86_64"
+script:
+  - rpmspec -P  SPECS/mg.spec | awk '/^Source/ {print $2}' | xargs -n1 wget -P SOURCES
+  - rpmbuild -bs --define '_topdir ./' SPECS/*spec
+  - docker run -e MOCK_CONFIG="${MOCK_CONFIG}" -v "$(pwd):/rpmbuild" --privileged=true mmckinst/rpmbuilder
+  - find results -type f -ls

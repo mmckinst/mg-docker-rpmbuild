@@ -1,0 +1,9 @@
+BUILD/
+BUILDROOT/
+MOCK/
+RPMS/
+SOURCES/*.tar.gz
+SRPMS/
+cache/
+results/
+.rpmmacros
