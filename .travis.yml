@@ -1,10 +1,14 @@
 ---
 sudo: required
+dist: trusty
 language: bash
 services:
   - docker
 before_install:
   - docker pull mmckinst/rpmbuilder
+  - sudo apt-get -qq update
+  - sudo apt-get install -y rpm wget
+  - mkdir -p BUILD RPMS SOURCES SPECS SRPMS
 env:
   - MOCK_CONFIG="epel-6-i386"
   - MOCK_CONFIG="epel-6-x86_64"
