@@ -7,20 +7,17 @@ services:
 before_install:
   - docker pull mmckinst/rpmbuilder
   - sudo apt-get -qq update
-  - sudo apt-get install -y rpm wget
+#  - sudo apt-get install -y rpm wget
   - mkdir -p BUILD RPMS SOURCES SPECS SRPMS
 env:
   - MOCK_CONFIG="epel-6-i386"
   - MOCK_CONFIG="epel-6-x86_64"
   - MOCK_CONFIG="epel-7-x86_64"
 script:
-# these steps appear un-necessary. apparently mock will fetch the tarball if it
-# can and build the src.rpm
-#
-# if the upstream tarball is in a private repo or can't be simply download from
-# a public url, the process for generating or getting the tarball should be done
-# in .travis.yml so the tarball or src.rpm are just sitting there waiting for
-# mock to build
+
+# these steps are done in rpmbuilder.sh with spectool and mock inside the docker
+# containter. tbd how to handle this for cases where building an rpm for a
+# private repo or one where you can't just download the src.rpm
 #  - rpmspec -P  SPECS/mg.spec | awk '/^Source/ {print $2}' | xargs -n1 wget -P SOURCES
 #  - rpmbuild -bs --define '_topdir ./' SPECS/*spec
   - docker run -e MOCK_CONFIG="${MOCK_CONFIG}" -v "$(pwd):/rpmbuild" --privileged=true mmckinst/rpmbuilder
