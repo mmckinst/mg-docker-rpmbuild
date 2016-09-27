@@ -10,6 +10,7 @@ before_install:
 #  - sudo apt-get install -y rpm wget
   - mkdir -p BUILD RPMS SOURCES SPECS SRPMS
 env:
+  - MOCK_CONFIG="centos-6-test"
   - MOCK_CONFIG="epel-6-i386"
   - MOCK_CONFIG="epel-6-x86_64"
   - MOCK_CONFIG="epel-7-x86_64"
